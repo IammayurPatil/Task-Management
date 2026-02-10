@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Card, CardContent, CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Box, Card, CardContent, CircularProgress, Paper, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 
 type ActivityRow = {
   id: string;
@@ -45,13 +45,29 @@ const ActivityTable: React.FC<Props> = ({ rows, loading }) => {
             </TableHead>
             <TableBody>
               {loading ? (
-                <TableRow>
-                  <TableCell colSpan={5}>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-start', py: 2 }}>
-                      <CircularProgress size={20} />
-                    </Box>
-                  </TableCell>
-                </TableRow>
+                [...Array(4)].map((_, idx) => (
+                  <TableRow key={`sk-${idx}`}>
+                    <TableCell sx={{ width: 32, display: { xs: 'none', sm: 'table-cell' } }}>
+                      <Skeleton variant="rounded" width={34} height={34} />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton variant="text" width="40%" height={22} />
+                      <Skeleton variant="text" width="70%" height={18} />
+                    </TableCell>
+                    <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                      <Skeleton variant="text" width="80%" height={18} />
+                    </TableCell>
+                    <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                      <Skeleton variant="text" width="60%" height={18} />
+                    </TableCell>
+                    <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                      <Skeleton variant="text" width="60%" height={18} />
+                    </TableCell>
+                    <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                      <Skeleton variant="rounded" width={64} height={22} />
+                    </TableCell>
+                  </TableRow>
+                ))
               ) : rows.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={6}>

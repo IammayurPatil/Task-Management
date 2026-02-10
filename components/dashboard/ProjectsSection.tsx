@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardActionArea, CardContent, CircularProgress, IconButton, TextField, Typography } from '@mui/material';
+import { Card, CardActionArea, CardContent, CircularProgress, IconButton, TextField, Typography, Skeleton } from '@mui/material';
 import { Calendar, Edit2, Folder, Plus, Trash2 } from 'lucide-react';
 import GradientButton from '../ui/GradientButton';
 
@@ -58,7 +58,27 @@ const ProjectsSection: React.FC<Props> = ({
       </div>
 
       {loading && projects.length === 0 ? (
-        <div className="flex justify-start py-10"><CircularProgress /></div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center lg:justify-items-center py-4">
+          {[...Array(4)].map((_, idx) => (
+            <Card key={idx} sx={{
+              height: '100%',
+              borderRadius: 4,
+              minWidth: { xs: 300, sm: 300, md: 320, lg: 320, xl: 320 },
+              maxWidth: { xs: 320, sm: 320, md: 320, lg: 320, xl: 320 },
+              border: '1px solid #EEF2F7',
+              bgcolor: '#FFFFFF',
+              width: '100%'
+            }}>
+              <CardContent sx={{ p: 3.5 }}>
+                <Skeleton variant="circular" width={46} height={46} />
+                <Skeleton variant="text" width="70%" height={32} sx={{ mt: 2 }} />
+                <Skeleton variant="text" width="90%" height={22} />
+                <Skeleton variant="rounded" width="60%" height={24} sx={{ mt: 2 }} />
+                <Skeleton variant="text" width="80%" height={20} sx={{ mt: 1 }} />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-10 rounded-lg border-2 border-dashed" style={{ backgroundColor: '#F8FAFF', borderColor: '#E6EAF2' }}>
           <Folder size={48} className="mx-auto text-slate-300 mb-4" />
@@ -71,7 +91,7 @@ const ProjectsSection: React.FC<Props> = ({
             <div key={project.id} className="flex justify-center lg:justify-start w-full">
               <Card sx={{
                 height: '100%',
-                borderRadius: 4,
+                borderRadius: 2,
                 minWidth: { xs: 300, sm: 300, md: 320, lg: 320, xl: 320 },
                 maxWidth: { xs: 320, sm: 320, md: 320, lg: 320, xl: 320 },
                 border: '1px solid #EEF2F7',

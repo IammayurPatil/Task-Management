@@ -48,7 +48,7 @@ const AuthPage: React.FC = () => {
         <Card sx={{ borderRadius: 4, overflow: 'hidden' }}>
           <Tabs value={tab} onChange={(_, val) => setTab(val)} variant="fullWidth">
             <Tab label="Sign In" />
-            <Tab label="Join Free" />
+            <Tab label="SIgn Up" />
           </Tabs>
 
           <CardContent sx={{ p: 4 }}>

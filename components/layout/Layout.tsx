@@ -85,6 +85,14 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <Container maxWidth="xl" sx={{ mt: 3, mb: 4, flexGrow: 1 }}>
         {children}
       </Container>
+
+      <Box component="footer" sx={{ py: 2, bgcolor: '#FFFFFF', borderTop: '1px solid #E6EAF2' }}>
+        <Container maxWidth="xl">
+          <Typography variant="caption" sx={{ display: 'block', textAlign: 'center', color: '#64748B', fontWeight: 600 }}>
+            Developed by Mayur Patil
+          </Typography>
+        </Container>
+      </Box>
     </Box>
   );
 };

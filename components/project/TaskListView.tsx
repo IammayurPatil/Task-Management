@@ -1,14 +1,15 @@
 import React from 'react';
-import { Chip, Typography, Avatar, LinearProgress, Tooltip } from '@mui/material';
+import { Chip, Typography, Avatar, LinearProgress, Tooltip, Skeleton } from '@mui/material';
 import { Task } from '../../types';
 import { UserSummary } from './types';
 
 type Props = {
   tasks: Task[];
   users: UserSummary[];
+  loading?: boolean;
 };
 
-const TaskListView: React.FC<Props> = ({ tasks, users }) => {
+const TaskListView: React.FC<Props> = ({ tasks, users, loading = false }) => {
   const statusLabel = (status: string) => {
     if (status === 'review') return 'In Review';
     return String(status).toLowerCase().replace(/_/g, ' ');
@@ -42,7 +43,41 @@ const TaskListView: React.FC<Props> = ({ tasks, users }) => {
         <div className="flex-1 text-right">Due Date</div>
         </div>
 
-      {tasks.length === 0 ? (
+      {loading ? (
+        [...Array(4)].map((_, idx) => (
+          <div key={`sk-${idx}`} className="px-4 py-4 border-b" style={{ borderColor: '#F1F5F9' }}>
+            <div className="block md:hidden mb-3">
+              <Skeleton variant="text" width="55%" height={22} />
+              <Skeleton variant="text" width="80%" height={16} />
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                <Skeleton variant="rounded" width="70%" height={22} />
+                <Skeleton variant="rounded" width="70%" height={22} />
+                <Skeleton variant="rounded" width="60%" height={22} />
+                <Skeleton variant="text" width="60%" height={18} />
+              </div>
+            </div>
+            <div className="hidden md:flex items-center gap-2">
+              <div className="flex-[2] min-w-0">
+                <Skeleton variant="text" width="60%" height={22} />
+                <Skeleton variant="text" width="80%" height={16} />
+              </div>
+              <div className="flex-1">
+                <Skeleton variant="rounded" width="70%" height={22} />
+              </div>
+              <div className="flex-1">
+                <Skeleton variant="rounded" width="70%" height={22} />
+              </div>
+              <div className="flex-1 flex items-center justify-center">
+                <Skeleton variant="circular" width={24} height={24} />
+                <Skeleton variant="circular" width={24} height={24} sx={{ ml: 1 }} />
+              </div>
+              <div className="flex-1 text-right">
+                <Skeleton variant="text" width="60%" height={18} />
+              </div>
+            </div>
+          </div>
+        ))
+      ) : tasks.length === 0 ? (
         <div className="px-4 py-6">
           <Typography variant="body2" color="text.secondary">No tasks match the current filter.</Typography>
         </div>
@@ -170,7 +205,7 @@ const TaskListView: React.FC<Props> = ({ tasks, users }) => {
         ))
       )}
 
-      {tasks.length > 0 && (
+      {!loading && tasks.length > 0 && (
         <div className="px-4 py-4 flex items-center justify-between gap-2">
           <div>
             <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A' }}>Overall Progress</Typography>

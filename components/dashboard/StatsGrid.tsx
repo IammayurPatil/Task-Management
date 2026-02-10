@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Card, CardContent, Stack, Typography } from '@mui/material';
+import { Box, Card, CardContent, Stack, Typography, Skeleton } from '@mui/material';
 import { Clock, ClipboardList, FolderKanban, Users } from 'lucide-react';
 
 type Stats = {
@@ -18,6 +18,7 @@ type TaskStats = {
 type Props = {
   stats: Stats;
   taskStats: TaskStats;
+  loading?: boolean;
 };
 
 const PieChart = ({
@@ -91,7 +92,7 @@ const PieChart = ({
   );
 };
 
-const StatsGrid: React.FC<Props> = ({ stats, taskStats }) => {
+const StatsGrid: React.FC<Props> = ({ stats, taskStats, loading = false }) => {
   const statCardSx = {
     borderRadius: 2,
     minWidth: 260,
@@ -105,6 +106,34 @@ const StatsGrid: React.FC<Props> = ({ stats, taskStats }) => {
     { label: 'Completed', value: taskStats.completedTasks, color: '#2563EB' },
     { label: 'Pending', value: taskStats.pendingTasks, color: '#06B6D4' }
   ];
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr',
+            sm: 'repeat(2, 1fr)',
+            md: 'repeat(3, 1fr)',
+            lg: 'repeat(5, 1fr)'
+          },
+          gap: 3,
+          mb: 4
+        }}
+      >
+        {[...Array(5)].map((_, idx) => (
+          <Card key={idx} sx={statCardSx}>
+            <CardContent sx={{ p: 3, height: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <Skeleton variant="rounded" width={50} height={50} />
+              <Skeleton variant="text" width="60%" height={36} />
+              <Skeleton variant="text" width="80%" height={24} />
+            </CardContent>
+          </Card>
+        ))}
+      </Box>
+    );
+  }
 
   return (
     <Box

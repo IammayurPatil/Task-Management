@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IconButton, Typography } from '@mui/material';
+import { Card, CardContent, IconButton, Skeleton, Typography } from '@mui/material';
 import { CheckCircle2, Plus } from 'lucide-react';
 import { Task, TaskStatus } from '../../types';
 import { UserSummary } from './types';
@@ -16,9 +16,10 @@ type Props = {
   onCreate: (status: TaskStatus) => void;
   onStatusChange: (task: Task, status: TaskStatus) => void;
   updatingTaskId?: string | null;
+  loading?: boolean;
 };
 
-const TaskColumn: React.FC<Props> = ({ status, title, tasks, users, onEdit, onDelete, onDropTask, onCreate, onStatusChange, updatingTaskId }) => {
+const TaskColumn: React.FC<Props> = ({ status, title, tasks, users, onEdit, onDelete, onDropTask, onCreate, onStatusChange, updatingTaskId, loading = false }) => {
   const columnTasks = tasks.filter(t => t.status === status);
   const [isDragOver, setIsDragOver] = useState(false);
   const badgeColor = status === TaskStatus.DONE
@@ -69,7 +70,18 @@ const TaskColumn: React.FC<Props> = ({ status, title, tasks, users, onEdit, onDe
           </IconButton>
         </div>
         <div className="flex flex-col gap-4 min-h-[200px] w-full mt-2">
-          {columnTasks.length === 0 ? (
+          {loading ? (
+            [...Array(3)].map((_, idx) => (
+              <Card key={`sk-${idx}`} sx={{ borderRadius: 2, border: '1px solid #E6EAF2', boxShadow: '0 8px 18px rgba(15, 23, 42, 0.04)' }}>
+                <CardContent sx={{ p: 1.5 }}>
+                  <Skeleton variant="rounded" width={90} height={20} />
+                  <Skeleton variant="text" width="80%" height={24} sx={{ mt: 1 }} />
+                  <Skeleton variant="text" width="90%" height={18} />
+                  <Skeleton variant="rounded" width="60%" height={16} sx={{ mt: 1 }} />
+                </CardContent>
+              </Card>
+            ))
+          ) : columnTasks.length === 0 ? (
             <div className="rounded-lg border border-dashed text-center text-slate-400 flex flex-col items-center justify-center gap-2 min-h-[180px]" style={{ backgroundColor: '#edeff5', borderColor: '#E2E8F0' }}>
               <CheckCircle2 size={32} color="#94A3B8" />
               <Typography variant="body2" sx={{ fontWeight: 600 }}>

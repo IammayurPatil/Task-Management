@@ -31,6 +31,7 @@ const Dashboard: React.FC = () => {
     pendingTasks: 0,
     totalMembers: 0,
   });
+  const [statsLoading, setStatsLoading] = useState(false);
   const [activityRows, setActivityRows] = useState<Array<{
     id: string;
     name: string;
@@ -47,19 +48,25 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     if (!router.isReady) return;
-    const tab = router.query.tab;
-    if (tab === 'projects') setActiveSection('board');
-    if (tab === 'overview') setActiveSection('overview');
-  }, [router.isReady, router.query.tab]);
+    if (router.pathname.startsWith('/project')) {
+      setActiveSection('board');
+      return;
+    }
+    setActiveSection('overview');
+  }, [router.isReady, router.pathname]);
 
   useEffect(() => {
     let mounted = true;
+    setStatsLoading(true);
     apiFetch('/api/stats')
       .then((data) => {
         if (mounted) setStats(data);
       })
       .catch(() => {
         // Ignore stats errors; auth dialog will handle 401
+      })
+      .finally(() => {
+        if (mounted) setStatsLoading(false);
       });
     return () => {
       mounted = false;
@@ -138,7 +145,14 @@ const Dashboard: React.FC = () => {
       >
         <Tabs
           value={activeSection}
-          onChange={(_, value) => setActiveSection(value)}
+          onChange={(_, value) => {
+            setActiveSection(value);
+            if (value === 'board') {
+              router.push('/project');
+            } else {
+              router.push('/');
+            }
+          }}
           textColor="primary"
           indicatorColor="primary"
           sx={{
@@ -165,7 +179,7 @@ const Dashboard: React.FC = () => {
               </Typography>
             </Box>
 
-            <StatsGrid stats={stats} taskStats={taskStats} />
+            <StatsGrid stats={stats} taskStats={taskStats} loading={statsLoading} />
             <ActivityTable rows={activityRows} loading={activityLoading} />
           </>
         )}

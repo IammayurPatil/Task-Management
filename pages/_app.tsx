@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { AppProps } from 'next/app';
 import { ThemeProvider, CssBaseline, Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
 import { theme } from '../lib/theme';
+import '../styles/globals.css';
 import Layout from '../components/layout/Layout';
 import { Provider } from 'react-redux';
 import { store, initApp, logoutUser } from '../store/store';

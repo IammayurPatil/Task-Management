@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Chip, Stack, Typography, Avatar, LinearProgress, Tooltip } from '@mui/material';
+import { Chip, Typography, Avatar, LinearProgress, Tooltip } from '@mui/material';
 import { Task } from '../../types';
 import { UserSummary } from './types';
 
@@ -33,56 +33,29 @@ const TaskListView: React.FC<Props> = ({ tasks, users }) => {
   const progressPercent = tasks.length === 0 ? 0 : Math.round((completedCount / tasks.length) * 100);
 
   return (
-    <Box sx={{ border: '1px solid #E6EAF2', borderRadius: 2, overflow: 'hidden', bgcolor: '#FFFFFF' }}>
-      <Box
-        sx={{
-          display: { xs: 'none', md: 'flex' },
-          alignItems: 'center',
-          gap: 2,
-          px: 2,
-          py: 1.2,
-          bgcolor: '#F8FAFF',
-          borderBottom: '1px solid #E6EAF2',
-          color: '#64748B',
-          fontSize: '0.72rem',
-          fontWeight: 800,
-          textTransform: 'uppercase',
-          letterSpacing: '0.06em'
-        }}
-      >
-        <Box sx={{ flex: 2 }}>Task Name</Box>
-        <Box sx={{ flex: 1 }}>Status</Box>
-        <Box sx={{ flex: 1 }}>Priority</Box>
-        <Box sx={{ flex: 1 }}>Assignee</Box>
-        <Box sx={{ flex: 1, textAlign: 'right' }}>Due Date</Box>
-      </Box>
+    <div className="border rounded-lg overflow-hidden bg-white" style={{ borderColor: '#E6EAF2' }}>
+        <div className="hidden md:flex items-center gap-2 px-4 py-3 text-xs font-extrabold uppercase tracking-widest" style={{ backgroundColor: '#F8FAFF', color: '#64748B', borderBottom: '1px solid #E6EAF2' }}>
+        <div className="flex-[2]">Task Name</div>
+        <div className="flex-1">Status</div>
+        <div className="flex-1">Priority</div>
+        <div className="flex-1 text-center">Assignee</div>
+        <div className="flex-1 text-right">Due Date</div>
+        </div>
+
       {tasks.length === 0 ? (
-        <Box sx={{ px: 2, py: 3 }}>
+        <div className="px-4 py-6">
           <Typography variant="body2" color="text.secondary">No tasks match the current filter.</Typography>
-        </Box>
+        </div>
       ) : (
         tasks.map((task) => (
-          <Box
-            key={task.id}
-            sx={{
-              display: { xs: 'block', md: 'flex' },
-              alignItems: { md: 'center' },
-              gap: 2,
-              px: 2,
-              py: 1.4,
-              borderBottom: '1px solid #F1F5F9',
-              '&:hover': { bgcolor: '#F8FAFF' }
-            }}
-          >
-            <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 1.2 }}>
+          <div key={task.id} className="px-4 py-4 border-b" style={{ borderColor: '#F1F5F9' }}>
+            <div className="block md:hidden mb-3">
               <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A' }}>{task.title}</Typography>
               <Typography variant="caption" color="text.secondary" className="line-clamp-1">{task.description}</Typography>
-            </Box>
-            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-              <Stack direction="row" spacing={2} flexWrap="wrap" alignItems="center" sx={{ rowGap: 1 }}>
-                <Box>
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                <div>
                   <Typography variant="caption" sx={{ fontWeight: 700, color: '#64748B', letterSpacing: '0.05em' }}>Status</Typography>
-                  <Box sx={{ mt: 0.5 }}>
+                  <div className="mt-1">
                     <Chip
                       label={statusLabel(String(task.status))}
                       size="small"
@@ -93,11 +66,11 @@ const TaskListView: React.FC<Props> = ({ tasks, users }) => {
                         textTransform: 'capitalize'
                       }}
                     />
-                  </Box>
-                </Box>
-                <Box>
+                  </div>
+                </div>
+                <div>
                   <Typography variant="caption" sx={{ fontWeight: 700, color: '#64748B', letterSpacing: '0.05em' }}>Priority</Typography>
-                  <Box sx={{ mt: 0.5 }}>
+                  <div className="mt-1">
                     <Chip
                       label={task.priority}
                       size="small"
@@ -108,46 +81,45 @@ const TaskListView: React.FC<Props> = ({ tasks, users }) => {
                         textTransform: 'capitalize'
                       }}
                     />
-                  </Box>
-                </Box>
-                <Box>
+                  </div>
+                </div>
+                <div className="min-w-0">
                   <Typography variant="caption" sx={{ fontWeight: 700, color: '#64748B', letterSpacing: '0.05em' }}>Assignee</Typography>
-                  <Box sx={{ mt: 0.5 }}>
-                    <Stack direction="row" spacing={-0.5}>
-                      {(task.assignedUserIds || []).slice(0, 3).map((id) => {
-                        const name = users.find(u => u.id === id)?.name || 'U';
-                        return (
-                          <Tooltip key={id} title={name} arrow>
-                            <Avatar sx={{ width: 24, height: 24, fontSize: 11, bgcolor: '#E0F2FE', color: '#0F172A', border: '2px solid #fff' }}>
-                              {name.charAt(0)}
-                            </Avatar>
-                          </Tooltip>
-                        );
-                      })}
-                      {(task.assignedUserIds || []).length > 3 && (
-                        <Tooltip title={`${(task.assignedUserIds || []).length - 3} more`} arrow>
-                          <Avatar sx={{ width: 24, height: 24, fontSize: 11, bgcolor: '#E2E8F0', color: '#0F172A', border: '2px solid #fff' }}>
-                            +{(task.assignedUserIds || []).length - 3}
+                  <div className="mt-1 flex items-center flex-wrap gap-1 min-h-[24px]">
+                    {(task.assignedUserIds || []).slice(0, 3).map((id) => {
+                      const name = users.find(u => u.id === id)?.name || 'U';
+                      return (
+                        <Tooltip key={id} title={name} arrow>
+                          <Avatar sx={{ width: 24, height: 24, fontSize: 11, bgcolor: '#E0F2FE', color: '#0F172A', border: '2px solid #fff' }}>
+                            {name.charAt(0)}
                           </Avatar>
                         </Tooltip>
-                      )}
-                    </Stack>
-                  </Box>
-                </Box>
-                <Box>
+                      );
+                    })}
+                    {(task.assignedUserIds || []).length > 3 && (
+                      <Tooltip title={`${(task.assignedUserIds || []).length - 3} more`} arrow>
+                        <Avatar sx={{ width: 24, height: 24, fontSize: 11, bgcolor: '#E2E8F0', color: '#0F172A', border: '2px solid #fff' }}>
+                          +{(task.assignedUserIds || []).length - 3}
+                        </Avatar>
+                      </Tooltip>
+                    )}
+                  </div>
+                </div>
+                <div>
                   <Typography variant="caption" sx={{ fontWeight: 700, color: '#64748B', letterSpacing: '0.05em' }}>Due Date</Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
                     {task.dueDate || '—'}
                   </Typography>
-                </Box>
-              </Stack>
-            </Box>
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, width: '100%' }}>
-              <Box sx={{ flex: 2, minWidth: 0 }}>
+                </div>
+              </div>
+            </div>
+
+            <div className="hidden md:flex items-center gap-2">
+              <div className="flex-[2] min-w-0">
                 <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A' }}>{task.title}</Typography>
                 <Typography variant="caption" color="text.secondary" className="line-clamp-1">{task.description}</Typography>
-              </Box>
-              <Box sx={{ flex: 1 }}>
+              </div>
+              <div className="flex-1">
                 <Chip
                   label={statusLabel(String(task.status))}
                   size="small"
@@ -158,8 +130,8 @@ const TaskListView: React.FC<Props> = ({ tasks, users }) => {
                     textTransform: 'capitalize'
                   }}
                 />
-              </Box>
-              <Box sx={{ flex: 1 }}>
+              </div>
+              <div className="flex-1">
                 <Chip
                   label={task.priority}
                   size="small"
@@ -170,38 +142,37 @@ const TaskListView: React.FC<Props> = ({ tasks, users }) => {
                     textTransform: 'capitalize'
                   }}
                 />
-              </Box>
-              <Box sx={{ flex: 1 }}>
-                <Stack direction="row" spacing={-0.5}>
-                  {(task.assignedUserIds || []).slice(0, 3).map((id) => {
-                    const name = users.find(u => u.id === id)?.name || 'U';
-                    return (
-                      <Tooltip key={id} title={name} arrow>
-                        <Avatar sx={{ width: 24, height: 24, fontSize: 11, bgcolor: '#E0F2FE', color: '#0F172A', border: '2px solid #fff' }}>
-                          {name.charAt(0)}
-                        </Avatar>
-                      </Tooltip>
-                    );
-                  })}
-                  {(task.assignedUserIds || []).length > 3 && (
-                    <Tooltip title={`${(task.assignedUserIds || []).length - 3} more`} arrow>
-                      <Avatar sx={{ width: 24, height: 24, fontSize: 11, bgcolor: '#E2E8F0', color: '#0F172A', border: '2px solid #fff' }}>
-                        +{(task.assignedUserIds || []).length - 3}
+              </div>
+              <div className="flex-1 flex items-center justify-center">
+                {(task.assignedUserIds || []).slice(0, 3).map((id) => {
+                  const name = users.find(u => u.id === id)?.name || 'U';
+                  return (
+                    <Tooltip key={id} title={name} arrow>
+                      <Avatar sx={{ width: 24, height: 24, fontSize: 11, bgcolor: '#E0F2FE', color: '#0F172A', border: '2px solid #fff', marginLeft: -4 }}>
+                        {name.charAt(0)}
                       </Avatar>
                     </Tooltip>
-                  )}
-                </Stack>
-              </Box>
-              <Typography variant="body2" color="text.secondary" sx={{ flex: 1, textAlign: 'right' }}>
+                  );
+                })}
+                {(task.assignedUserIds || []).length > 3 && (
+                  <Tooltip title={`${(task.assignedUserIds || []).length - 3} more`} arrow>
+                    <Avatar sx={{ width: 24, height: 24, fontSize: 11, bgcolor: '#E2E8F0', color: '#0F172A', border: '2px solid #fff', marginLeft: -4 }}>
+                      +{(task.assignedUserIds || []).length - 3}
+                    </Avatar>
+                  </Tooltip>
+                )}
+              </div>
+              <Typography variant="body2" color="text.secondary" className="flex-1 text-right">
                 {task.dueDate || '—'}
               </Typography>
-            </Box>
-          </Box>
+            </div>
+          </div>
         ))
       )}
+
       {tasks.length > 0 && (
-        <Box sx={{ px: 2, py: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
-          <Box>
+        <div className="px-4 py-4 flex items-center justify-between gap-2">
+          <div>
             <Typography variant="body2" sx={{ fontWeight: 700, color: '#0F172A' }}>Overall Progress</Typography>
             <Typography variant="caption" color="text.secondary">
               {completedCount} of {tasks.length} tasks completed
@@ -217,38 +188,23 @@ const TaskListView: React.FC<Props> = ({ tasks, users }) => {
                 '& .MuiLinearProgress-bar': { bgcolor: '#2563EB' }
               }}
             />
-          </Box>
-          <Box
-            sx={{
+          </div>
+          <div
+            className="flex items-center justify-center text-xs font-bold"
+            style={{
               width: 56,
               height: 56,
               borderRadius: '50%',
-              background: `conic-gradient(#2563EB ${progressPercent}%, #E2E8F0 ${progressPercent}% 100%)`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#0F172A',
-              fontWeight: 700,
-              fontSize: 12
+              background: `conic-gradient(#2563EB ${progressPercent}%, #E2E8F0 ${progressPercent}% 100%)`
             }}
           >
-            <Box
-              sx={{
-                width: 44,
-                height: 44,
-                borderRadius: '50%',
-                bgcolor: '#FFFFFF',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
+            <div className="flex items-center justify-center bg-white rounded-full" style={{ width: 44, height: 44 }}>
               {progressPercent}%
-            </Box>
-          </Box>
-        </Box>
+            </div>
+          </div>
+        </div>
       )}
-    </Box>
+    </div>
   );
 };
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { fetchTasks, createTask, updateTask, removeTask } from '../../store/store';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { Typography, Box, CircularProgress, Breadcrumbs, Link, Button } from '@mui/material';
+import { Typography, CircularProgress, Breadcrumbs, Link, Button } from '@mui/material';
 import { TaskStatus, TaskPriority, Task } from '../../types';
 import { apiFetch } from '../../lib/api';
 import ProjectHeader from './ProjectHeader';
@@ -62,18 +62,18 @@ const ProjectView: React.FC = () => {
 
   if (!projectId) {
     return (
-      <Box sx={{ textAlign: 'center', py: 10 }}>
+      <div className="text-center py-10">
         <CircularProgress />
-      </Box>
+      </div>
     );
   }
 
   if (!project) {
     return (
-      <Box sx={{ textAlign: 'center', py: 10 }}>
+      <div className="text-center py-10">
         <Typography variant="h5">Project not found</Typography>
         <Button onClick={() => router.push('/')}>Back to Dashboard</Button>
-      </Box>
+      </div>
     );
   }
 
@@ -168,7 +168,7 @@ const ProjectView: React.FC = () => {
   }, [filteredTasks, sortBy]);
 
   return (
-    <Box sx={{ p: { xs: 0, md: 2 }, bgcolor: '#F8FAFF', minHeight: '100vh' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#F8FAFF', padding: '0.5rem' }}>
       <Breadcrumbs sx={{ mb: 1, color: '#64748B' }}>
         <Link
           underline="hover"
@@ -197,27 +197,16 @@ const ProjectView: React.FC = () => {
       />
 
       {loading ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}><CircularProgress /></Box>
+        <div className="flex justify-center"><CircularProgress /></div>
       ) : viewMode === 'list' ? (
         <TaskListView tasks={sortedTasks} users={users} />
       ) : (
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-            gap: 2,
-            flexWrap: { xs: 'wrap', md: 'nowrap' },
-            alignItems: 'flex-start',
-            justifyContent: { xs: 'center', md: 'flex-start' },
-            overflowX: { xs: 'visible', md: 'auto' },
-            pb: 1
-          }}
-        >
+        <div className="w-full flex flex-wrap md:flex-nowrap gap-6 items-start justify-center md:justify-start pb-1 overflow-visible md:overflow-x-auto">
           <TaskColumn status={TaskStatus.TODO} title="To Do" tasks={sortedTasks} users={users} onEdit={handleOpen} onDelete={(id) => dispatch(removeTask(id))} onDropTask={handleDropTask} onCreate={(status) => handleOpen(undefined, status)} onStatusChange={handleStatusChange} updatingTaskId={updatingTaskId} />
           <TaskColumn status={TaskStatus.IN_PROGRESS} title="In Progress" tasks={sortedTasks} users={users} onEdit={handleOpen} onDelete={(id) => dispatch(removeTask(id))} onDropTask={handleDropTask} onCreate={(status) => handleOpen(undefined, status)} onStatusChange={handleStatusChange} updatingTaskId={updatingTaskId} />
           <TaskColumn status={TaskStatus.REVIEW} title="In Review" tasks={sortedTasks} users={users} onEdit={handleOpen} onDelete={(id) => dispatch(removeTask(id))} onDropTask={handleDropTask} onCreate={(status) => handleOpen(undefined, status)} onStatusChange={handleStatusChange} updatingTaskId={updatingTaskId} />
           <TaskColumn status={TaskStatus.DONE} title="Completed" tasks={sortedTasks} users={users} onEdit={handleOpen} onDelete={(id) => dispatch(removeTask(id))} onDropTask={handleDropTask} onCreate={(status) => handleOpen(undefined, status)} onStatusChange={handleStatusChange} updatingTaskId={updatingTaskId} />
-        </Box>
+        </div>
       )}
 
       <TaskDialog
@@ -230,7 +219,7 @@ const ProjectView: React.FC = () => {
         onSave={handleSave}
         onChange={setTaskForm}
       />
-    </Box>
+    </div>
   );
 };
 

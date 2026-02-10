@@ -106,19 +106,53 @@ const ActivityTable: React.FC<Props> = ({ rows, loading }) => {
                         </Box>
                         <Box>{row.name}</Box>
                       </Box>
-                      <Box sx={{ display: { xs: 'block', sm: 'none' }, mt: 0.5 }}>
+                      <Box sx={{ display: { xs: 'block', sm: 'none' }, mt: 0.75 }}>
                         <Typography variant="body2" color="text.secondary">
                           Working On{' '}
                           <Box component="span" sx={{ color: '#2563EB', fontWeight: 600 }}>
                             {row.taskName}
                           </Box>
                         </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          {row.projectName}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          {row.deadline}
-                        </Typography>
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 1, mt: 0.5 }}>
+                          <Typography variant="caption" color="text.secondary">
+                            {row.projectName}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            {row.deadline}
+                          </Typography>
+                          <Box
+                            component="span"
+                            sx={{
+                              px: 1.1,
+                              py: 0.35,
+                              borderRadius: 2,
+                              fontSize: 11,
+                              fontWeight: 600,
+                              textTransform: 'capitalize',
+                              whiteSpace: 'nowrap',
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              color: ['DONE', 'COMPLETED'].includes(String(row.status).toUpperCase())
+                                ? '#16A34A'
+                                : ['IN_PROGRESS', 'PENDING'].includes(String(row.status).toUpperCase())
+                                ? '#2563EB'
+                                : ['REVIEW', 'TODO'].includes(String(row.status).toUpperCase())
+                                ? '#F59E0B'
+                                : '#64748B',
+                              backgroundColor: ['DONE', 'COMPLETED'].includes(String(row.status).toUpperCase())
+                                ? '#DCFCE7'
+                                : ['IN_PROGRESS', 'PENDING'].includes(String(row.status).toUpperCase())
+                                ? '#DBEAFE'
+                                : ['REVIEW', 'TODO'].includes(String(row.status).toUpperCase())
+                                ? '#FEF3C7'
+                                : '#E2E8F0'
+                            }}
+                          >
+                            {String(row.status || 'todo').toLowerCase().replace(/_/g, ' ') === 'review'
+                              ? 'In Review'
+                              : String(row.status || 'todo').toLowerCase().replace(/_/g, ' ')}
+                          </Box>
+                        </Box>
                       </Box>
                     </TableCell>
                     <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
@@ -141,6 +175,9 @@ const ActivityTable: React.FC<Props> = ({ rows, loading }) => {
                           fontSize: 12,
                           fontWeight: 600,
                           textTransform: 'capitalize',
+                          whiteSpace: 'nowrap',
+                          display: 'inline-flex',
+                          alignItems: 'center',
                           color: ['DONE', 'COMPLETED'].includes(String(row.status).toUpperCase())
                             ? '#16A34A'
                             : ['IN_PROGRESS', 'PENDING'].includes(String(row.status).toUpperCase())
@@ -162,37 +199,7 @@ const ActivityTable: React.FC<Props> = ({ rows, loading }) => {
                           : String(row.status || 'todo').toLowerCase().replace(/_/g, ' ')}
                       </Box>
                     </TableCell>
-                    <TableCell sx={{ display: { xs: 'table-cell', sm: 'none' }, textAlign: 'right' }}>
-                      <Box
-                        component="span"
-                        sx={{
-                          px: 1.25,
-                          py: 0.4,
-                          borderRadius: 2,
-                          fontSize: 11,
-                          fontWeight: 600,
-                          textTransform: 'capitalize',
-                          color: ['DONE', 'COMPLETED'].includes(String(row.status).toUpperCase())
-                            ? '#16A34A'
-                            : ['IN_PROGRESS', 'PENDING'].includes(String(row.status).toUpperCase())
-                            ? '#2563EB'
-                            : ['REVIEW', 'TODO'].includes(String(row.status).toUpperCase())
-                            ? '#F59E0B'
-                            : '#64748B',
-                          backgroundColor: ['DONE', 'COMPLETED'].includes(String(row.status).toUpperCase())
-                            ? '#DCFCE7'
-                            : ['IN_PROGRESS', 'PENDING'].includes(String(row.status).toUpperCase())
-                            ? '#DBEAFE'
-                            : ['REVIEW', 'TODO'].includes(String(row.status).toUpperCase())
-                            ? '#FEF3C7'
-                            : '#E2E8F0'
-                        }}
-                      >
-                        {String(row.status || 'todo').toLowerCase().replace(/_/g, ' ') === 'review'
-                          ? 'In Review'
-                          : String(row.status || 'todo').toLowerCase().replace(/_/g, ' ')}
-                      </Box>
-                    </TableCell>
+                    <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }} />
                   </TableRow>
                 ))
               )}

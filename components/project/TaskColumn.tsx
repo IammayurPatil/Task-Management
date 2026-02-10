@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Grid, IconButton, Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import { CheckCircle2, Plus } from 'lucide-react';
 import { Task, TaskStatus } from '../../types';
 import { UserSummary } from './types';
@@ -30,24 +30,10 @@ const TaskColumn: React.FC<Props> = ({ status, title, tasks, users, onEdit, onDe
     : { bg: '#E2E8F0', text: '#475569' };
 
   return (
-    <Grid
-      xs={12}
-      md={3}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        minWidth: { xs: '100%', md: 280 },
-        maxWidth: { xs: 380, md: 'none' },
-        mx: { xs: 'auto', md: 0 }
-      }}
-    >
-      <Box
-        sx={{
-          width: '100%',
-          borderRadius: 2,
-          transition: 'background-color 0.15s ease, box-shadow 0.15s ease',
-          boxShadow: isDragOver ? '0 0 0 2px rgba(59, 130, 246, 0.25)' : 'none'
-        }}
+    <div className="flex flex-col w-full md:min-w-[280px] md:flex-1 max-w-[380px] md:max-w-none mx-auto md:mx-0">
+      <div
+        className="w-full rounded-lg transition-shadow"
+        style={{ boxShadow: isDragOver ? '0 0 0 2px rgba(59, 130, 246, 0.25)' : 'none' }}
         onDragOver={(e) => {
           e.preventDefault();
           e.dataTransfer.dropEffect = 'move';
@@ -67,23 +53,13 @@ const TaskColumn: React.FC<Props> = ({ status, title, tasks, users, onEdit, onDe
           if (taskId) onDropTask(taskId, status);
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 0.5, py: 0.5 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <div className="flex items-center justify-between px-2 py-2">
+          <div className="flex items-center gap-2">
             <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#0F172A' }}>{title}</Typography>
-            <Box
-              sx={{
-                px: 0.9,
-                py: 0.15,
-                borderRadius: 2,
-                bgcolor: badgeColor.bg,
-                fontSize: '0.7rem',
-                fontWeight: 700,
-                color: badgeColor.text
-              }}
-            >
+            <div style={{ padding: '0.15rem 0.6rem', borderRadius: 8, backgroundColor: badgeColor.bg, fontSize: '0.7rem', fontWeight: 700, color: badgeColor.text }}>
               {columnTasks.length}
-            </Box>
-          </Box>
+            </div>
+          </div>
           <IconButton
             size="small"
             onClick={() => onCreate(status)}
@@ -91,24 +67,10 @@ const TaskColumn: React.FC<Props> = ({ status, title, tasks, users, onEdit, onDe
           >
             <Plus size={16} />
           </IconButton>
-        </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, minHeight: 200, width: '100%', mt: 1 }}>
+        </div>
+        <div className="flex flex-col gap-4 min-h-[200px] w-full mt-2">
           {columnTasks.length === 0 ? (
-            <Box
-              sx={{
-                borderRadius: 2,
-                border: '1px dashed #E2E8F0',
-                bgcolor: '#edeff5',
-                minHeight: 180,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center',
-                color: '#94A3B8',
-                flexDirection: 'column',
-                gap: 1
-              }}
-            >
+            <div className="rounded-lg border border-dashed text-center text-slate-400 flex flex-col items-center justify-center gap-2 min-h-[180px]" style={{ backgroundColor: '#edeff5', borderColor: '#E2E8F0' }}>
               <CheckCircle2 size={32} color="#94A3B8" />
               <Typography variant="body2" sx={{ fontWeight: 600 }}>
                 {status === TaskStatus.DONE
@@ -119,24 +81,24 @@ const TaskColumn: React.FC<Props> = ({ status, title, tasks, users, onEdit, onDe
                   ? 'No tasks in progress'
                   : 'No tasks to do'}
               </Typography>
-            </Box>
+            </div>
           ) : (
             columnTasks.map(task => (
               <TaskCard
                 key={task.id}
-              task={task}
-              users={users}
-              onEdit={onEdit}
-              onDelete={onDelete}
-              onStatusChange={onStatusChange}
-              isUpdating={updatingTaskId === task.id}
-              onDragStart={() => {}}
-            />
+                task={task}
+                users={users}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                onStatusChange={onStatusChange}
+                isUpdating={updatingTaskId === task.id}
+                onDragStart={() => {}}
+              />
             ))
           )}
-        </Box>
-      </Box>
-    </Grid>
+        </div>
+      </div>
+    </div>
   );
 };
 

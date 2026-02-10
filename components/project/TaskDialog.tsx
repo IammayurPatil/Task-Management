@@ -4,13 +4,11 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Box,
   Button,
   Checkbox,
   CircularProgress,
   FormControl,
   FormHelperText,
-  Grid,
   InputLabel,
   ListItemText,
   MenuItem,
@@ -100,8 +98,8 @@ const TaskDialog: React.FC<Props> = ({
     >
       <DialogTitle sx={{ fontWeight: 700, color: '#0F172A' }}>{editingTask ? 'Edit Task' : 'New Task'}</DialogTitle>
       <DialogContent sx={{ pt: 1 }}>
-        <Box sx={{ pt: 1, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-          <Box sx={{ display: 'flex', gap: 1 }}>
+        <div className="pt-1 flex flex-col gap-3">
+          <div className="flex gap-2">
             <TextField
               size="small"
               label="Title"
@@ -113,7 +111,7 @@ const TaskDialog: React.FC<Props> = ({
               error={titleError}
               helperText={titleError ? 'Title is required.' : ' '}
             />
-          </Box>
+          </div>
           <TextField
             size="small"
             label="Description"
@@ -127,8 +125,8 @@ const TaskDialog: React.FC<Props> = ({
             error={descriptionError}
             helperText={descriptionError ? 'Description is required.' : ' '}
           />
-          <Grid container spacing={2}>
-            <Grid xs={6}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
               <TextField
                 size="small"
                 select
@@ -147,8 +145,8 @@ const TaskDialog: React.FC<Props> = ({
                 <MenuItem value={TaskPriority.MEDIUM}>Medium</MenuItem>
                 <MenuItem value={TaskPriority.HIGH}>High</MenuItem>
               </TextField>
-            </Grid>
-            <Grid xs={6}>
+            </div>
+            <div>
               <TextField
                 size="small"
                 select
@@ -168,8 +166,8 @@ const TaskDialog: React.FC<Props> = ({
                 <MenuItem value={TaskStatus.REVIEW}>In Review</MenuItem>
                 <MenuItem value={TaskStatus.DONE}>Done</MenuItem>
               </TextField>
-            </Grid>
-            <Grid xs={12}>
+            </div>
+            <div className="sm:col-span-2">
               <FormControl size="small" fullWidth error={assignedUsersError}>
                 <InputLabel id="assign-users-label" required shrink>Assign Users</InputLabel>
                 <Select
@@ -205,10 +203,10 @@ const TaskDialog: React.FC<Props> = ({
                   <FormHelperText> </FormHelperText>
                 )}
               </FormControl>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2}>
-            <Grid xs={6}>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
               <TextField
                 size="small"
                 type="date"
@@ -224,8 +222,8 @@ const TaskDialog: React.FC<Props> = ({
                 error={dueDateError}
                 helperText={dueDateError ? 'Due date is required.' : ' '}
               />
-            </Grid>
-            <Grid xs={6}>
+            </div>
+            <div>
               <TextField
                 size="small"
                 type="time"
@@ -241,9 +239,9 @@ const TaskDialog: React.FC<Props> = ({
                 error={dueTimeError}
                 helperText={dueTimeError ? 'Due time is required.' : ' '}
               />
-            </Grid>
-          </Grid>
-        </Box>
+            </div>
+          </div>
+        </div>
       </DialogContent>
       <DialogActions sx={{ p: 2.5, borderTop: '1px solid #E6EAF2' }}>
         <Button onClick={onClose} disabled={submitting}>Cancel</Button>

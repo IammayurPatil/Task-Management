@@ -128,7 +128,7 @@ const StatsGrid: React.FC<Props> = ({ stats, taskStats }) => {
             </Box>
           </Stack>
           <Box sx={{ mt: 1 }}>
-            <Typography variant="h3" sx={{ fontWeight: 700, mb: 0.5 }}>{stats.finishedProjects}</Typography>
+            <Typography variant="h2" sx={{ fontWeight: 700, mb: 1.5 }}>{stats.finishedProjects}</Typography>
             <Typography variant="body1" color="text.secondary">Project Finished</Typography>
           </Box>
         </CardContent>
@@ -141,7 +141,7 @@ const StatsGrid: React.FC<Props> = ({ stats, taskStats }) => {
             </Box>
           </Stack>
           <Box sx={{ mt: 1 }}>
-            <Typography variant="h3" sx={{ fontWeight: 700, mb: 0.5 }}>
+            <Typography variant="h2" sx={{ fontWeight: 700, mb: 1.5 }}>
               {Math.floor(stats.timeTrackedMinutesWeek / 60)}h {stats.timeTrackedMinutesWeek % 60}m
             </Typography>
             <Typography variant="body1" color="text.secondary">Time Tracked (week)</Typography>
@@ -156,7 +156,7 @@ const StatsGrid: React.FC<Props> = ({ stats, taskStats }) => {
             </Box>
           </Stack>
           <Box sx={{ mt: 1 }}>
-            <Typography variant="h3" sx={{ fontWeight: 700, mb: 0.5 }}>{stats.totalTasks}</Typography>
+            <Typography variant="h2" sx={{ fontWeight: 700, mb: 1.5 }}>{stats.totalTasks}</Typography>
             <Typography variant="body1" color="text.secondary">Total Tasks</Typography>
           </Box>
         </CardContent>
@@ -169,7 +169,7 @@ const StatsGrid: React.FC<Props> = ({ stats, taskStats }) => {
             </Box>
           </Stack>
           <Box sx={{ mt: 1 }}>
-            <Typography variant="h3" sx={{ fontWeight: 700, mb: 0.5 }}>{stats.totalMembers}</Typography>
+            <Typography variant="h2" sx={{ fontWeight: 700, mb: 1.5 }}>{stats.totalMembers}</Typography>
             <Typography variant="body1" color="text.secondary">Total Members</Typography>
           </Box>
         </CardContent>

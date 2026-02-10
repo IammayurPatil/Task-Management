@@ -31,25 +31,26 @@ const TaskCard: React.FC<Props> = ({ task, users, onEdit, onDelete, onStatusChan
     : 'Low';
 
   return (
-    <Card
-      draggable={!!onDragStart}
-      onDragStart={(e) => {
-        if (!onDragStart) return;
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/plain', task.id);
-        onDragStart(task.id);
-      }}
-      sx={{
-        borderRadius: 2,
-        border: '1px solid #EDF2F7',
-        boxShadow: '0 8px 18px rgba(15, 23, 42, 0.06)',
-        width: '100%',
-        borderLeft: `4px solid ${priorityColor}`,
-        transition: 'box-shadow 0.15s ease, transform 0.15s ease',
-        '&:hover': { boxShadow: '0 16px 28px rgba(15, 23, 42, 0.10)', transform: 'translateY(-2px)' }
-      }}
-    >
-      <CardContent sx={{ p: 1.5, position: 'relative' }}>
+    <Tooltip title="Drag me" placement="top" disableHoverListener={!onDragStart} arrow>
+      <Card
+        draggable={!!onDragStart}
+        onDragStart={(e) => {
+          if (!onDragStart) return;
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', task.id);
+          onDragStart(task.id);
+        }}
+        sx={{
+          borderRadius: 2,
+          border: '1px solid #EDF2F7',
+          boxShadow: '0 8px 18px rgba(15, 23, 42, 0.06)',
+          width: '100%',
+          borderLeft: `4px solid ${priorityColor}`,
+          transition: 'box-shadow 0.15s ease, transform 0.15s ease',
+          '&:hover': { boxShadow: '0 16px 28px rgba(15, 23, 42, 0.10)', transform: 'translateY(-2px)' }
+        }}
+      >
+        <CardContent sx={{ p: 1.5, position: 'relative' }}>
         {isUpdating && (
           <Box
             sx={{
@@ -182,8 +183,9 @@ const TaskCard: React.FC<Props> = ({ task, users, onEdit, onDelete, onStatusChan
             </Typography>
           </Box>
         </Box>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Tooltip>
   );
 };
 

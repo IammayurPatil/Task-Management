@@ -16,7 +16,7 @@ export const apiFetch = async (endpoint: string, options: any = {}) => {
   const data = contentType.includes('application/json') ? await res.json() : await res.text();
 
   if (!res.ok) {
-    if (res.status === 401 && typeof window !== 'undefined') {
+    if (res.status === 401 && typeof window !== 'undefined' && token) {
       window.dispatchEvent(new CustomEvent('auth-expired'));
     }
     const message = (data && data.error) ? data.error : 'API Error';

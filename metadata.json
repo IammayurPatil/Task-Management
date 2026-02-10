@@ -1,0 +1,8 @@
+
+{
+  "name": "TaskFlow Pro",
+  "description": "A high-performance Task Manager Dashboard featuring JWT-based mock authentication, project management, and AI-powered task suggestions using Gemini.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

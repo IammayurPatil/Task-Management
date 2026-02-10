@@ -14,7 +14,7 @@ import {
   IconButton
 } from '@mui/material';
 import { LayoutDashboard, Eye, EyeOff, Mail, Lock, User as UserIcon } from 'lucide-react';
-import { loginUser, registerUser } from '../store/store';
+import { loginUser, registerUser, clearError } from '../store/store';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 const AuthPage: React.FC = () => {
@@ -46,7 +46,14 @@ const AuthPage: React.FC = () => {
         </Box>
 
         <Card sx={{ borderRadius: 4, overflow: 'hidden' }}>
-          <Tabs value={tab} onChange={(_, val) => setTab(val)} variant="fullWidth">
+          <Tabs
+            value={tab}
+            onChange={(_, val) => {
+              setTab(val);
+              dispatch(clearError());
+            }}
+            variant="fullWidth"
+          >
             <Tab label="Sign In" />
             <Tab label="SIgn Up" />
           </Tabs>
